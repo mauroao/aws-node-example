@@ -9,6 +9,6 @@ module.exports.describeInstances = async (ec2) => {
                 resolve(data);
             };
         };
-        ec2.describeInstances(params, callback);        
+        ec2.describeInstances(params, callback);
     });
 };

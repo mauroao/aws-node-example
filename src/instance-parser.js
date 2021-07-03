@@ -16,7 +16,7 @@ module.exports.parse = (response) => {
         State: item.State.Name,
         Platform: item.Platform || 'linux',
         PublicDnsName: item.PublicDnsName,
-        PublicIpAddress: item.PublicIpAddress,                
+        PublicIpAddress: item.PublicIpAddress,
         Name: getTagValue(item.Tags, 'Name'),
         Owner: getTagValue(item.Tags, 'Owner'),
         MonitorType: getTagValue(item.Tags, 'MonitorType')

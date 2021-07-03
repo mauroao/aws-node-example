@@ -3,5 +3,5 @@ module.exports.sort = instances => {
         const first = `${a.Platform} ${a.Name}`;
         const second = `${b.Platform} ${b.Name}`;
         return (first > second) ? 1 : -1;
-    });    
+    });
 }
