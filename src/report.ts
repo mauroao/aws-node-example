@@ -6,7 +6,9 @@ export function print(instances: InstanceList): void {
       InstanceId: instance.InstanceId,
       State: instance.State?.Name,
       Platform: instance.Platform || 'linux',
-      Name: instance.Tags?.find((tag) => tag.Key === 'Name')?.Value || ''
+      Name: instance.Tags?.find((tag) => tag.Key === 'Name')?.Value || '',
+      MonitorType:
+        instance.Tags?.find((tag) => tag.Key === 'MonitorType')?.Value || ''
     };
   });
 
@@ -18,9 +20,10 @@ export function print(instances: InstanceList): void {
 
   items.forEach((item) =>
     console.log(
-      `${item.InstanceId}   ${item.Name.padEnd(30, ' ')}   ${item.State}  ${
-        item.Platform
-      }`
+      `${item.InstanceId}   ${item.Name.padEnd(30, ' ')}   ${item.State?.padEnd(
+        10,
+        ' '
+      )}  ${item.Platform.padEnd(9, ' ')} ${item.MonitorType}`
     )
   );
 }
