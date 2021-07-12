@@ -13,14 +13,14 @@ export function print(instances: InstanceList): void {
   });
 
   items.sort((a: any, b: any) => {
-    const first = `${a.Platform} ${a.Name}`;
-    const second = `${b.Platform} ${b.Name}`;
+    const first = `${a.State} ${a.MonitorType} ${a.Name}`;
+    const second = `${b.State} ${b.MonitorType}  ${a.Name}`;
     return first > second ? 1 : -1;
   });
 
   items.forEach((item) =>
     console.log(
-      `${item.InstanceId}   ${item.Name.padEnd(30, ' ')}   ${item.State?.padEnd(
+      `${item.InstanceId}   ${item.Name.padEnd(34, ' ')}   ${item.State?.padEnd(
         10,
         ' '
       )}  ${item.Platform.padEnd(9, ' ')} ${item.MonitorType}`
