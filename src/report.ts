@@ -1,20 +1,28 @@
-import { InstanceList } from 'aws-sdk/clients/ec2';
+import { InstanceList, Instance } from 'aws-sdk/clients/ec2';
+
+class ReportLine {
+  InstanceId: string;
+  State: string;
+  Platform: string;
+  Name: string;
+  MonitorType: string;
+
+  constructor(instance: Instance) {
+    this.InstanceId = instance.InstanceId || '';
+    this.State = instance.State?.Name || '';
+    this.Platform = instance.Platform || 'linux';
+    this.Name = instance.Tags?.find((tag) => tag.Key === 'Name')?.Value || '';
+    this.MonitorType =
+      instance.Tags?.find((tag) => tag.Key === 'MonitorType')?.Value || '';
+  }
+}
 
 export function print(instances: InstanceList): void {
-  const items = instances.map((instance) => {
-    return {
-      InstanceId: instance.InstanceId,
-      State: instance.State?.Name,
-      Platform: instance.Platform || 'linux',
-      Name: instance.Tags?.find((tag) => tag.Key === 'Name')?.Value || '',
-      MonitorType:
-        instance.Tags?.find((tag) => tag.Key === 'MonitorType')?.Value || ''
-    };
-  });
+  const items = instances.map((instance) => new ReportLine(instance));
 
-  items.sort((a: any, b: any) => {
-    const first = `${a.State} ${a.MonitorType} ${a.Name}`;
-    const second = `${b.State} ${b.MonitorType}  ${a.Name}`;
+  items.sort((a: ReportLine, b: ReportLine) => {
+    const first = `${a.State} ${a.MonitorType || ''} ${a.Name}`;
+    const second = `${b.State} ${b.MonitorType || ''}  ${a.Name}`;
     return first > second ? 1 : -1;
   });
 
