@@ -1,4 +1,5 @@
 import { InstanceList, Instance } from 'aws-sdk/clients/ec2';
+import chalk from 'chalk';
 
 class ReportLine {
   InstanceId: string;
@@ -26,12 +27,20 @@ export function print(instances: InstanceList): void {
     return first > second ? 1 : -1;
   });
 
-  items.forEach((item) =>
-    console.log(
-      `${item.InstanceId}   ${item.Name.padEnd(34, ' ')}   ${item.State?.padEnd(
-        10,
-        ' '
-      )}  ${item.Platform.padEnd(9, ' ')} ${item.MonitorType}`
-    )
-  );
+  items.forEach((item) => {
+    //const instanceId = item.InstanceId;
+    const name = item.Name.padEnd(34, ' ');
+    let state = item.State?.padEnd(10, ' ');
+    const platform = item.Platform.padEnd(9, ' ');
+    const monitorType = item.MonitorType;
+
+    if (item.State == 'stopped') {
+      state = chalk.red(state);
+    }
+    if (item.State == 'running') {
+      state = chalk.green(state);
+    }
+
+    console.log(/*instanceId, */ name, state, platform, monitorType);
+  });
 }
